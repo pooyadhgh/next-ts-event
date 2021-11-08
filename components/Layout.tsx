@@ -8,6 +8,7 @@ type Props = {
   title?: string;
   keywords?: string;
   description?: string;
+  className?: string;
 };
 
 const Layout = ({
@@ -15,6 +16,7 @@ const Layout = ({
   title = 'Next Event',
   description = 'A Next.js Applicaiton to show events',
   keywords = 'event, nextjs, typescript, tailwind, html, css, react, javascript',
+  className,
 }: Props) => {
   return (
     <>
@@ -25,7 +27,9 @@ const Layout = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center justify-center flex-wrap my-5 mx-5 h-full">
+      <main
+        className={`flex flex-col items-center justify-center flex-wrap mt-5 mb-14 mx-5 h-full ${className}`}
+      >
         {children}
       </main>
       <Footer />
