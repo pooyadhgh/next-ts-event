@@ -9,14 +9,14 @@ type Props = {
 
 const Button = ({ children, href, onClick }: Props) => {
   return (
-    <button
-      className="w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2"
-      onClick={onClick}
-    >
-      <Link href={href} passHref>
+    <Link href={href} passHref>
+      <button
+        className="w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2 lg:max-w-sm"
+        onClick={onClick}
+      >
         {children}
-      </Link>
-    </button>
+      </button>
+    </Link>
   );
 };
 
