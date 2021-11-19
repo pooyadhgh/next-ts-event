@@ -1,19 +1,20 @@
 import { useRef, FormEvent } from 'react';
+import { useRouter } from 'next/router';
 import Button from './Button';
 
-type Props = {
-  onSearch: (year: string, month: string) => void;
-};
-
-const EventSearch = ({ onSearch }: Props) => {
+const EventSearch = () => {
+  const router = useRouter();
   const yearRef = useRef<HTMLSelectElement>(null);
   const monthRef = useRef<HTMLSelectElement>(null);
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
+
     const selectedYear = yearRef.current?.value as string;
     const selectedMonth = monthRef.current?.value as string;
-    onSearch(selectedYear, selectedMonth);
+    const fullPath = `/events/${selectedYear}/${selectedMonth}`;
+
+    router.push(fullPath);
   };
 
   return (
