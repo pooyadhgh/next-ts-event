@@ -3,8 +3,8 @@ import type {
   NextApiResponse,
   NextApiHandler,
 } from 'next';
-import dbConnect from 'utils/db-connect';
-import Event from 'models/Events';
+import dbConnect from '@/utils/db-connect';
+import Event from '@/models/Events';
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
