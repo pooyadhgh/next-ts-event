@@ -3,7 +3,7 @@ import type {
   NextApiResponse,
   NextApiHandler,
 } from 'next';
-import type { ConnectOptions, CallbackWithoutResult } from 'mongoose';
+import type { ConnectOptions } from 'mongoose';
 import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
