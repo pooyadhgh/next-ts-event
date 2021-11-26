@@ -1,11 +1,16 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
+import type { Event } from '@/types/index';
+import { getFilteredEvents } from '@/api/events/[...slug]';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getFilteredEvents } from 'data/events';
 import Layout from '@/components/Layout';
 import EventList from '@/components/EventList';
 
-const FilteredEventsPage: NextPage = () => {
+type Props = {
+  filteredEvents: Event[];
+};
+
+const FilteredEventsPage: NextPage<Props> = ({ filteredEvents }) => {
   const router = useRouter();
   const filterData = router.query.slug;
 
@@ -45,9 +50,7 @@ const FilteredEventsPage: NextPage = () => {
     );
   }
 
-  const events = getFilteredEvents({ year: numYear, month: numMonth });
-
-  if (!events || events.length === 0) {
+  if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Layout
         title={`Filtered Events: ${numYear}/${numMonth}`}
@@ -70,9 +73,23 @@ const FilteredEventsPage: NextPage = () => {
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">
         {`Filtered Events: ${numYear}/${numMonth}`}
       </h1>
-      <EventList events={events} />
+      <EventList events={filteredEvents} />
     </Layout>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  async context => {
+    const [year, month] = context?.params?.slug as string[];
+
+    const events = await getFilteredEvents(year, month);
+
+    const modifiedEvents = events.map(event => ({
+      ...event._doc,
+      _id: event._id.toString(),
+    }));
+
+    return { props: { filteredEvents: modifiedEvents } };
+  };
 
 export default FilteredEventsPage;

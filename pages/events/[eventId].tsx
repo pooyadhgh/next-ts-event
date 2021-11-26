@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from 'next';
-import type { Event } from 'types';
-import { useRouter } from 'next/router';
-import { getEventById } from 'data/events';
+import type { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import type { Event } from '@/types/index';
+import { getEventById } from '@/api/events/[eventId]';
+import { getAllEvents } from '@/api/events';
 import Layout from '@/components/Layout';
 
-const EventDetailPage: NextPage = () => {
-  const router = useRouter();
-  const eventId = router.query.eventId as string;
-  const event = getEventById(eventId);
+type Props = {
+  event: Event;
+};
 
+const EventDetailPage: NextPage<Props> = ({ event }) => {
   if (!event) {
     return (
       <Layout>
@@ -34,7 +34,11 @@ const EventDetailPage: NextPage = () => {
         {title}
       </h1>
       <section className="flex flex-col w-full mx-auto my-12 md:w-7/12 lg:w-6/12">
-        <img src={imageUrl} alt={title} className="rounded shadow-sm" />
+        <img
+          src={imageUrl}
+          alt={title}
+          className="rounded shadow-sm"
+        />
         <div className="flex flex-col my-6 gap-4 p-1">
           <time className="block">
             <i className="fas fa-calendar-alt text-tertiary pr-1"></i>{' '}
@@ -51,6 +55,33 @@ const EventDetailPage: NextPage = () => {
       </section>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async context => {
+  const eventId = context?.params?.eventId as string;
+
+  const event = await getEventById(eventId);
+
+  if (!event) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { event: { ...event._doc, _id: event._id.toString() } },
+    revalidate: 1800,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = await getAllEvents();
+
+  const paths = events.map((event: Event) => ({
+    params: { eventId: event?._id?.toString() },
+  }));
+
+  return { paths, fallback: 'blocking' };
 };
 
 export default EventDetailPage;

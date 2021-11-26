@@ -7,14 +7,16 @@ type Props = {
   event: Event;
 };
 
-const EventItem = ({ event: { id, image, title, date, location } }: Props) => {
+const EventItem = ({
+  event: { _id, image, title, date, location },
+}: Props) => {
   const modifiedDate = new Date(date).toLocaleDateString('en-US', {
     day: 'numeric',
     year: 'numeric',
     month: 'long',
   });
   const imageUrl = `/${image}`;
-  const eventUrl = `/events/${id}`;
+  const eventUrl = `/events/${_id}`;
 
   return (
     <li className="rounded shadow-xl m-4 flex overflow-hidden flex-col gap-4 sm:flex-row">
