@@ -6,17 +6,29 @@ import type {
 import dbConnect from '@/utils/db-connect';
 import Event from '@/models/Events';
 
+export const getFeaturedEvents = async () => {
+  await dbConnect();
+  let events;
+  try {
+    events = await Event.find({ isFeatured: true });
+    return events;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   if (req.method === 'GET') {
-    await dbConnect();
     let events;
     try {
-      events = await Event.find({ isFeatured: true });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error });
+      events = await getFeaturedEvents();
+    } catch (error: any) {
+      res
+        .status(500)
+        .json({ success: false, message: error.message });
     }
     if (!events) {
       res.status(500).json({

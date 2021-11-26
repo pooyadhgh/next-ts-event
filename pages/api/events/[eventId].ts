@@ -6,18 +6,31 @@ import type {
 import dbConnect from '@/utils/db-connect';
 import Event from '@/models/Events';
 
+export const getEventById = async (id: string) => {
+  await dbConnect();
+  let event;
+  try {
+    event = await Event.findById(id);
+    return event;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   if (req.method === 'GET') {
-    const eventId = req.query.eventId;
-    await dbConnect();
+    const eventId = req.query.eventId as string;
+
     let event;
     try {
-      event = await Event.findById(eventId);
-    } catch (error) {
-      res.status(500).json({ success: false, message: error });
+      event = await getEventById(eventId);
+    } catch (error: any) {
+      res
+        .status(500)
+        .json({ success: false, message: error.message });
     }
     if (!event) {
       res.status(500).json({
