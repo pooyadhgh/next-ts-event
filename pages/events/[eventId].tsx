@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import type { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import type { Event } from '@/types/index';
+import Image from 'next/image';
 import { getEventById } from '@/api/events/[eventId]';
 import { getAllEvents } from '@/api/events';
 import Layout from '@/components/Layout';
@@ -34,10 +34,12 @@ const EventDetailPage: NextPage<Props> = ({ event }) => {
         {title}
       </h1>
       <section className="flex flex-col w-full mx-auto my-12 md:w-7/12 lg:w-6/12">
-        <img
+        <Image
           src={imageUrl}
           alt={title}
-          className="rounded shadow-sm"
+          className="rounded shadow-sm object-cover"
+          width={750}
+          height={450}
         />
         <div className="flex flex-col my-6 gap-4 p-1">
           <time className="block">

@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import { Event } from 'types';
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from './Button';
 
 type Props = {
@@ -21,10 +21,12 @@ const EventItem = ({
   return (
     <li className="rounded shadow-xl m-4 flex overflow-hidden flex-col gap-4 sm:flex-row">
       <Link href={eventUrl} passHref>
-        <img
+        <Image
           src={imageUrl}
           alt={title}
-          className="object-cover w-full h-40 cursor-pointer"
+          className="object-cover cursor-pointer"
+          width={750}
+          height={350}
         />
       </Link>
       <div className="p-2 w-full">
