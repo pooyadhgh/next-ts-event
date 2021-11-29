@@ -12,7 +12,7 @@ type Props = {
 const EventDetailPage: NextPage<Props> = ({ event }) => {
   if (!event) {
     return (
-      <Layout>
+      <Layout title="404 Not Found">
         <h1 className="text-center text-2xl font-semibold text-primary mt-1">
           No Evnet Found
         </h1>
@@ -29,7 +29,7 @@ const EventDetailPage: NextPage<Props> = ({ event }) => {
   });
 
   return (
-    <Layout>
+    <Layout title={title} description={description}>
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">
         {title}
       </h1>

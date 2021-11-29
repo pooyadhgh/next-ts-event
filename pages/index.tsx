@@ -12,7 +12,10 @@ type Props = {
 
 const Home: NextPage<Props> = ({ featuredEvents }) => {
   return (
-    <Layout>
+    <Layout
+      title="Next Event"
+      description="An event management system based on Next.js"
+    >
       <EventSearch />
 
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">

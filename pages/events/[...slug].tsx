@@ -54,6 +54,7 @@ const FilteredEventsPage: NextPage<Props> = ({ filteredEvents }) => {
     return (
       <Layout
         title={`Filtered Events: ${numYear}/${numMonth}`}
+        description={`Filtered Events Found for: ${numYear}/${numMonth}`}
         className="space-y-12"
       >
         <h2 className="text-center text-2xl font-semibold text-primary mt-1">
@@ -69,7 +70,10 @@ const FilteredEventsPage: NextPage<Props> = ({ filteredEvents }) => {
   }
 
   return (
-    <Layout title={`Filtered Events: ${numYear}/${numMonth}`}>
+    <Layout
+      title={`Filtered Events: ${numYear}/${numMonth}`}
+      description={`Filtered Events Found for: ${numYear}/${numMonth}`}
+    >
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">
         {`Filtered Events: ${numYear}/${numMonth}`}
       </h1>

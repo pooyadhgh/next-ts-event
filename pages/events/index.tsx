@@ -11,7 +11,7 @@ type Props = {
 
 const AllEventsPage: NextPage<Props> = ({ events }) => {
   return (
-    <Layout>
+    <Layout title="All Events" description="All events found.">
       <EventSearch />
 
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">
