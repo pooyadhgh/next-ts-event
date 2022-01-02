@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/utils/db-connect';
 import User from '@/models/Users';
+import cookie from 'cookie';
 
 const JWT_KEY = process.env.JWT_KEY as string;
 
@@ -57,7 +58,19 @@ const handler: NextApiHandler = async (
       return Promise.reject(error);
     }
 
-    res.status(200).json({ success: true, token });
+    res
+      .status(200)
+      .setHeader(
+        'Set-Cookie',
+        cookie.serialize('token', token, {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'strict',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
+        })
+      )
+      .json({ success: true, token });
   } else {
     res
       .status(422)
