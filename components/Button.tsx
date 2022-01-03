@@ -8,11 +8,16 @@ type Props = {
   className?: string;
 };
 
-const Button = ({ children, href, onClick, className }: Props) => {
+const Button = ({
+  children,
+  href,
+  onClick,
+  className = '',
+}: Props) => {
   if (!href) {
     return (
       <button
-        className={`w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2 lg:max-w-sm ${className}`}
+        className={`mt-2 mb-2 w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2 md:max-w-sm ${className}`}
         onClick={onClick}
       >
         {children}
@@ -23,7 +28,7 @@ const Button = ({ children, href, onClick, className }: Props) => {
   return (
     <Link href={href} passHref>
       <button
-        className={`w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2 lg:max-w-sm ${className}`}
+        className={`mt-2 mb-2 w-full bg-primary text-white font-medium hover:border-secondary hover:bg-secondary rounded px-4 py-2 md:max-w-sm ${className}`}
       >
         {children}
       </button>
