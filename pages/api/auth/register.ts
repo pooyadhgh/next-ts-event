@@ -5,6 +5,7 @@ import type {
 } from 'next';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import cookie from 'cookie';
 import dbConnect from '@/utils/db-connect';
 import User from '@/models/Users';
 
@@ -68,11 +69,23 @@ const handler: NextApiHandler = async (
       return Promise.reject(error);
     }
 
-    res.status(201).json({
-      success: true,
-      message: 'User Signedup successfully',
-      token,
-    });
+    res
+      .status(201)
+      .setHeader(
+        'Set-Cookie',
+        cookie.serialize('token', token, {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'strict',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
+        })
+      )
+      .json({
+        success: true,
+        message: 'User Signedup successfully',
+        token,
+      });
   } else {
     res
       .status(422)

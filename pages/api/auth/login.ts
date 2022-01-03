@@ -5,9 +5,9 @@ import type {
 } from 'next';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import cookie from 'cookie';
 import dbConnect from '@/utils/db-connect';
 import User from '@/models/Users';
-import cookie from 'cookie';
 
 const JWT_KEY = process.env.JWT_KEY as string;
 
@@ -43,7 +43,7 @@ const handler: NextApiHandler = async (
 
     if (!isValidPassword) {
       return res
-        .status(401)
+        .status(422)
         .json({ success: false, message: 'Invalid inputs' });
     }
 
