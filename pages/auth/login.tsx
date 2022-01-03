@@ -1,31 +1,22 @@
-import { ReactEventHandler, useRef } from 'react';
+import { ReactEventHandler, useContext, useRef } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import axios from 'axios';
 import Layout from '@/components/Layout';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import AuthContext from 'context/auth-context';
 
 const Login: NextPage = () => {
+  const { login } = useContext(AuthContext);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const submitHandler: ReactEventHandler = async event => {
+  const submitHandler: ReactEventHandler = event => {
     event.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    try {
-      const res = await axios.post('/api/auth/login', {
-        email,
-        password,
-      });
-      console.log(res.data);
-      // TODO: Update context / Add Toast
-    } catch (error) {
-      console.log(error);
-    }
+    const email = emailRef.current?.value!;
+    const password = passwordRef.current?.value!;
+    login(email, password);
   };
-
   return (
     <Layout title="Login" description="Login Page">
       <h1 className="text-center text-2xl font-semibold text-primary mt-1">
@@ -57,11 +48,7 @@ const Login: NextPage = () => {
         <div className="text-center mt-8 w-3/6 block m-auto">
           <p>
             Not registered yet?{' '}
-            <Link href="/auth/register" passHref>
-              <p className="underline cursor-pointer text-blue-500">
-                Sign up now
-              </p>
-            </Link>
+            <Link href="/auth/register">Sign up now</Link>
           </p>
         </div>
       </form>

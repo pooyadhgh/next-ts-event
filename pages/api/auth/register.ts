@@ -84,7 +84,7 @@ const handler: NextApiHandler = async (
       .json({
         success: true,
         message: 'User Signedup successfully',
-        token,
+        user: { name: existingUser.name, email: existingUser.email },
       });
   } else {
     res

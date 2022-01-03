@@ -70,7 +70,11 @@ const handler: NextApiHandler = async (
           maxAge: 60 * 60 * 24 * 7, // 1 week
         })
       )
-      .json({ success: true, token });
+      .json({
+        success: true,
+        message: 'Logged in successfully',
+        user: { name: user.name, email: user.email },
+      });
   } else {
     res
       .status(422)
