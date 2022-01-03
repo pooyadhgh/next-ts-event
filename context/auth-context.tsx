@@ -27,8 +27,9 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    checkUserLoggedIn();
-  }, []);
+    if (!user) checkUserLoggedIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const loginHandler = async (email: string, password: string) => {
     try {
